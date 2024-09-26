@@ -13,6 +13,9 @@ TRANSLATION_PROMPT = (
 MAX_TOKENS = 1000
 TEMPERATURE = 0.2
 
+FRAME_START = "\\begin{frame}"
+FRAME_END = "\\end{frame}"
+
 # Initialize OpenAI client with the API key from environment variable
 client = OpenAI(api_key=os.environ[API_KEY_ENV_VAR])
 
@@ -52,18 +55,17 @@ def process_latex_file(input_file, output_file):
         while i < len(lines):
             line = lines[i].lstrip()
             
-            if line.startswith("\\begin{frame}"):
+            if line.startswith(FRAME_START):
                 # Collect all lines until the end of the frame
                 frame = []
-                while not lines[i].lstrip().startswith("\\end{frame}"):
+                while not lines[i].lstrip().startswith(FRAME_END):
                     frame.append(lines[i])
                     i += 1
                 frame.append(lines[i])  # Add the closing \end{frame}
 
                 # Process the collected frame
                 frame_content = "".join(frame)
-                translated_frame = translate_frame(frame_content)
-                print(translated_frame)  # Optional: Print the translated frame for debugging
+                translated_frame = translate_frame(frame_content)                
                 outfile.write(translated_frame)
 
             else:
