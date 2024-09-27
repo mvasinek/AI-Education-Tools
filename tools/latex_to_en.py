@@ -76,7 +76,7 @@ def process_latex_file(input_file, output_file):
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:
-        print("Usage: python script.py <input_file> <output_file>")
+        print("Usage: python latex_to_en.py <input_file> <output_file>")
         sys.exit(1)
 
     input_file = sys.argv[1]
